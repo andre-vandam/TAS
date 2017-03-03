@@ -7,10 +7,10 @@ Created on Sat Feb 25 22:36:58 2017
 import numpy as np
 import matplotlib.pyplot as plt
 
-convert = lambda time: float(time[(len(time)-7):])
+convert = lambda time: time[(len(time)-7):]
 data = np.genfromtxt('Data/1',delimiter = ',', dtype =str, converters ={10:convert})
 length = len(data)
-data = data[:]
+
 print(data)
 # ## Velocity components ##
 # U = data[:,1]
