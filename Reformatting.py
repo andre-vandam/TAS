@@ -6,12 +6,33 @@ Created on Sat Feb 25 22:36:58 2017
 """
 import numpy as np
 import matplotlib.pyplot as plt
+import re
 
-convert = lambda time: time[(len(time)-7):]
-data = np.genfromtxt('Data/1',delimiter = ',', dtype =str, converters ={10:convert})
-length = len(data)
 
-print(data)
+convert = lambda time: re.sub(b':',b'',time[(len(time)-7):])
+data= np.genfromtxt('Data/1',delimiter = ',', converters ={10:convert})
+print (data)
+
+
+# print(data)
+def TransformTime (data):
+
+    time = data[:,10]
+    t0 = time[0]
+    print("time")
+    print(time)
+    t0h = t0[0]
+    t0m= t0[1:3]
+    t0s=t0[3:5]
+    for i in range(len(time)):
+        hour = time[i][0]
+        minute = time[i][1:3]
+        second =time[i][3:5]
+        dt = (hour-t0h)*60 + (minute-t0m)*60 + (second-t0s)
+        time [i]=dt
+    return time
+
+# print(TransformTime(data))
 # ## Velocity components ##
 # U = data[:,1]
 # V = data[:,2]
