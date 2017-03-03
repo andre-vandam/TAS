@@ -63,3 +63,26 @@ class data(object):
 #
 # print(x.col(1))
 #
+
+def ConvertToINTstamp(time):
+    return re.sub(":","",time)
+
+def TransformTime (data):
+
+    time = data[:,10]
+    t0 = ConvertToINTstamp(time[0])
+
+    t0h = int(t0[0])
+    t0m= int(t0[1:3])
+    t0s= int(t0[3:5])
+    tstamp = t0h*60 *60 + t0m*60 +t0s
+    for i in range(len(time)):
+        localTime = ConvertToINTstamp(time[i])
+        hour = int(localTime[0])
+        minute = int(localTime[1:3])
+        second = int(localTime[3:5])
+        dt = (hour*60*60 + minute*60 + second)-tstamp
+        data[i,10]=dt
+    return data
+
+print (TransformTime(data))
