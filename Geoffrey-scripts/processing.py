@@ -27,7 +27,7 @@ def timedifference(t1, t2):
     return Dt
 
 # Lambda Function to calculate magnitude of vector from components.
-g = lambda x,y,z: sqrt(float(x)**2+float(y)**2+float(z)**2)
+mag = lambda x,y,z: sqrt(float(x)**2+float(y)**2+float(z)**2)
 
 t = PrettyTable(['I.D.',"Vx", "Vy", "Vz", "Time", "S.O.S."])
 
