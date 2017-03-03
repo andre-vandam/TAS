@@ -2,9 +2,10 @@ import numpy as np
 from prettytable import PrettyTable
 import matplotlib.pyplot as plt
 from math import sqrt
+import re
 
 # Data array creation from data.txt
-data = np.genfromtxt('Gill Log [WM1]-4', delimiter =',', skip_header=5, skip_footer=1, dtype=str)
+data = np.genfromtxt('1', delimiter =',', skip_header=5, skip_footer=1, dtype=str)
 
 # Time stamp string sectioning (removal of date)
 for i in range(len(data[:,10])):
@@ -12,6 +13,7 @@ for i in range(len(data[:,10])):
     time = time[11:]
     data[i,10] = time
 
+print (data)
 # Function to calculate time interval between two time-stamps
 def timedifference(t1, t2):
     t1 = t1
@@ -23,6 +25,30 @@ def timedifference(t1, t2):
     ds = float(t2[5:]) - float(t1[5:])
     Dt = dh*60*60 + dm*60 + ds #[s]
     return Dt
+
+
+def ConvertToINTstamp(time):
+    return re.sub(":","",time)
+
+def TransformTime (data):
+
+    time = data[:,10]
+    t0 = ConvertToINTstamp(time[0])
+
+    t0h = int(t0[0])
+    t0m= int(t0[1:3])
+    t0s= int(t0[3:5])
+    for i in range(len(time)):
+        localTime = ConvertToINTstamp(time[i])
+        # print("localtime i : " + localTime)
+        hour = int(localTime[0])
+        minute = int(localTime[1:3])
+        second = int(localTime[3:5])
+        dt = (hour-t0h)*60 + (minute-t0m)*60 + (second-t0s)
+        data[i,10]=dt
+    return data
+
+print (TransformTime(data))
 
 g = lambda x,y,z: sqrt(float(x)**2+float(y)**2+float(z)**2)
 
@@ -57,4 +83,3 @@ for i in range(len(data[:,1])):
 # plt.plot(Vlist, time)
 # plt.show()
 print(t)
-
