@@ -41,25 +41,26 @@ class data(object):
 
         # Conversion of velocity components into float, and ignoring of empty cells.
         for j in range(3):
+
+            # Should the cell be empty, the value 0 will be assigned
             for i in range(len(self.data[:, 1 + j])):
                 if self.data[i, 1 + j] == '':
                     self.data[i, 1 + j] = 0
 
-                # Should the cell be empty, the value 0 will be assigned
                 elif self.data[i, 1 + j] != '':
-                    self.data[i, 1 + j] = float(eval(self.data[i, 1]))
+                    self.data[i, 1 + j] = float(self.data[i, 1+j])
 
     # Method to return column
     def col(self, number):
-        col = self.data[number,:]
+        col = self.data[:, number]
         return col
 
     # Method to return row
     def row(self, number):
-        row = self.data[:, number]
+        row = self.data[number, :]
         return row
 
-# x = data('Gill Log [WM1]-4.csv')
-#
-# print(x.col(1))
-#
+x = data('Gill Log [WM1]-4.csv')
+
+print(x.row(1))
+
