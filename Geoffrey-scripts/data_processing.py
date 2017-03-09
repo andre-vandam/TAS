@@ -1,10 +1,6 @@
 import numpy as np
 from math import sqrt
-from numpy import delete
 
-#---------------------------------------------------------------------------------
-# FUNCTIONS                                                                      |
-#---------------------------------------------------------------------------------
 # Lambda Function to calculate magnitude of vector from components.
 mag = lambda x,y,z: sqrt(float(x)**2+float(y)**2+float(z)**2)
 
@@ -17,17 +13,14 @@ def deltaT(t1, t2):
     Dt = dh*60*60 + dm*60 + ds #[s]
     return Dt
 
-#---------------------------------------------------------------------------------
-# OBJECTS                                                                        |
-#---------------------------------------------------------------------------------
 class data(object):
+
     def __init__(self, filename):
         self.filename = filename
         self.time = []
         self.ux = []
         self.uy = []
         self.uz = []
-        self.V = []
 
         # Loading data file
         self.data = np.genfromtxt(self.filename,
@@ -58,12 +51,11 @@ class data(object):
         for j in range(3):
             for i in range(len(self.data[:, 1 + j])):
                 if self.data[i, 1 + j] != '':
-                    self.data[i, 1 + j] = float(self.data[i, 1+j])
+                    self.data[i, 1 + j] = float(eval(self.data[i, 1]))
 
                 # Should the cell be empty, the value 0 will be assigned
                 elif self.data[i, 1 + j] == '':
-                    delete(self.data, (i), axis = 0)
-                    # self.data[i, 1 + j] = 0
+                    self.data[i, 1 + j] = 0
 
         # Defining the components as attributes
         self.Ux = self.data[:,1].astype(float)
@@ -78,20 +70,7 @@ class data(object):
 
 
 
-        # Defining the magnitude of velocity vector
-        for i in range(len(self.Ux)):
-            V = mag(self.Ux[i],self.Uy[i],self.Uz[i])
-            self.V.append(V)
-
-        # THETA ANGLE INIT
         #---------------------------------------------------------------------------
-
-
-
-
-
-
-
 
     # Will potentially remove this
     # # Method to return column
