@@ -13,11 +13,43 @@ def deltaT(t1, t2):
     Dt = dh*60*60 + dm*60 + ds #[s]
     return Dt
 
-def VEC_ANGLE(v1,v2):
-    return np.arccos(np.dot(v1,v2) / (np.sqrt(np.dot(v1,v1))*np.sqrt(np.dot(v2,v2))))
+# Projection of a vector on a plane. By default it will project to XY plane.
+def VEC_PROJECTION_PLANE(v1, b1 = np.array([1,0,0]), b2 = np.array([0,1,0])):
+    projections = []
+    for i in range(len(v1[0,:])):
+        a1 = v1[:,i] * b1
+        a2 = v1[:,i] * b2
+        projections.append([a1[0], a2[1], 0])
 
-def VEC_SUM(v1,v2):
-    return np.sqrt(np.dot(v1,v2))
+    return np.array(projections).T
+
+# Calculation of angle between two vectors
+def VEC_ANGLE(v1,v2):
+    angles = []
+    for i in range(len(v1[0, :])):
+        angle = np.arccos(np.dot(v1[:,i], v2[:,i]) / (np.sqrt(np.dot(v1[:,i], v1[:,i])) * np.sqrt(np.dot(v2[:,i], v2[:,i]))))
+        angles.append(angle)
+    return np.array(angles)
+
+# Vector dot product for array of vectors
+def VEC_DOT(v1,v2):
+    vec_dot = []
+    if len(v1[0,:]) == len(v2[0,:]):
+        for i in range(len(v1[0,:])):
+            print(i)
+            dot = np.dot(v1[:,i],v2[:,i])
+            vec_dot.append(dot)
+        return vec_dot
+
+    else: raise ValueError("Dimensions of the arrays are not the same: "+"(dim"+str(len(v1[0,:]))+'!= '+"(dim"+str(len(v2[0,:])))
+#
+# # Sqrt
+# def VEC_SQRT(v1):
+#     vec_sqrt = []
+#     for i in range(len(v1[0,:])):
+#         sqrt = np.sqrt(v1[0,i])
+#         vec_sqrt.append(sqrt)
+#     return vec_sqrt
 
 class data(object):
 
@@ -63,36 +95,26 @@ class data(object):
         # Defining the components as attributes
         zero = np.zeros(len(self.data[:,0]))
 
-        # Ux component in form of <Ux,0,0>
-        self.Ux = self.data[:,1].astype(float)
-        self.Ux = np.vstack([self.Ux, zero])
-        self.Ux = np.vstack([self.Ux, zero])
+        self.u_x = self.data[:, 1].astype(float)
+        self.u_y = self.data[:, 2].astype(float)
+        self.u_z = self.data[:, 3].astype(float)
 
-        # Uy component in form of <0,Uy,0>
-        self.Uy = zero
-        self.Uy = np.vstack([self.Uy, self.data[:,2].astype(float)])
-        self.Uy = np.vstack([self.Uy, zero])
+        self.V = self.u_x
+        self.V = np.vstack([self.V, self.u_y])
+        self.V = np.vstack([self.V, self.u_z])
 
-        # Uz component in form of <0,0,Uz>
-        self.Uz = zero
-        self.Uz = np.vstack([self.Uz, zero])
-        self.Uz = np.vstack([self.Uz, self.data[:,3].astype(float)])
-
-        # # Uxy calculation FIX LATER
-        # self.Uxy = self.data[i,]
-        # print(self.Uxy)
+        self.u_xy = self.V; self.V[2,:] = 0
+        self.Uxy = np.sqrt(VEC_DOT(self.u_xy, self.u_xy))
 
 
         # THETA VARIABLE CALCULATION (between z component and xy plane)
         #---------------------------------------------------------------------------
-        # zero = np.zeros(len(self.Uz))
-        # print(self.Uz)
-        # self.Uz = np.vstack([self.Uz, zero])
-        # print(self.Uz)
-        # new_order = [0,1]
-        # self.Uz = self.Uz[new_order, :][new_order]
-        # print(self.Uz)
-        # self.theta = angle()
+        # V projected on xy-plane for Uxy_hat
+        self.Uxy_hat = VEC_PROJECTION_PLANE(self.V)
+
+        # Angles between V[i] and Uxy
+        self.theta = VEC_ANGLE(self.Uxy_hat, self.V)
+        print(self.theta)
 
     # Will potentially remove this
     # # Method to return column
@@ -108,4 +130,4 @@ class data(object):
 x = data('3')
 #
 # print(x.col(1))
-#
+
