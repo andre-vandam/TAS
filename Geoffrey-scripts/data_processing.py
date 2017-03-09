@@ -18,6 +18,9 @@ class data(object):
     def __init__(self, filename):
         self.filename = filename
         self.time = []
+        self.ux = []
+        self.uy = []
+        self.uz = []
 
         # Loading data file
         self.data = genfromtxt(self.filename,
@@ -41,13 +44,25 @@ class data(object):
 
         # Conversion of velocity components into float, and ignoring of empty cells.
         for j in range(3):
+
+            if j == 0:
+                component = 'Ux'
+
+            elif j == 1:
+                component = 'Uy'
+
+            elif j == 2:
+                component = 'Uz'
+
             for i in range(len(self.data[:, 1 + j])):
-                if self.data[i, 1 + j] == '':
-                    self.data[i, 1 + j] = 0
+                if self.data[i, 1 + j] != '':
+                    self.data[i, 1 + j] = float(eval(self.data[i, 1]))
+                    eval('self.'+component)
+
 
                 # Should the cell be empty, the value 0 will be assigned
-                elif self.data[i, 1 + j] != '':
-                    self.data[i, 1 + j] = float(eval(self.data[i, 1]))
+                elif self.data[i, 1 + j] == '':
+                    self.data[i, 1 + j] = 0
 
     # Method to return column
     def col(self, number):
