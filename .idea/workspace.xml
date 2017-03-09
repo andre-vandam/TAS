@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9f2f10a1-a08d-4777-9d55-0967690adffc" name="Default" comment="">
+    <list default="true" id="9f2f10a1-a08d-4777-9d55-0967690adffc" name="Default" comment="Renamed file&#10;Added data_processing.py (class for handling data files)&#10;BugFIx">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Geoffrey-scripts/data_processing.py" afterPath="$PROJECT_DIR$/Geoffrey-scripts/data_processing.py" />
     </list>
@@ -57,8 +57,8 @@
       <file leaf-file-name="data_processing.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Geoffrey-scripts/data_processing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="54" column="72" lean-forward="true" selection-start-line="54" selection-start-column="72" selection-end-line="54" selection-end-column="72" />
+            <state relative-caret-position="812">
+              <caret line="91" column="36" lean-forward="true" selection-start-line="91" selection-start-column="36" selection-end-line="91" selection-end-column="36" />
               <folding>
                 <element signature="e#249#277#0" expanded="true" />
               </folding>
@@ -554,7 +554,14 @@
       <option name="project" value="LOCAL" />
       <updated>1489053719610</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Renamed file&#10;Added data_processing.py (class for handling data files)&#10;BugFIx">
+      <created>1489053798677</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1489053798677</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -685,8 +692,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Geoffrey-scripts/data_processing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="54" column="72" lean-forward="true" selection-start-line="54" selection-start-column="72" selection-end-line="54" selection-end-column="72" />
+        <state relative-caret-position="812">
+          <caret line="91" column="36" lean-forward="true" selection-start-line="91" selection-start-column="36" selection-end-line="91" selection-end-column="36" />
           <folding>
             <element signature="e#249#277#0" expanded="true" />
           </folding>

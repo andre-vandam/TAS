@@ -77,8 +77,9 @@ class data(object):
             V = mag(self.Ux[i],self.Uy[i],self.Uz[i])
             self.V.append(V)
 
-        #
+        # THETA ANGLE INIT
         #---------------------------------------------------------------------------
+
 
     # Will potentially remove this
     # # Method to return column
