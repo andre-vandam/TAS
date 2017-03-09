@@ -13,17 +13,17 @@ def deltaT(t1, t2):
     Dt = dh*60*60 + dm*60 + ds #[s]
     return Dt
 
-def angle(v1,v2):
+def VEC_ANGLE(v1,v2):
     return np.arccos(np.dot(v1,v2) / (np.sqrt(np.dot(v1,v1))*np.sqrt(np.dot(v2,v2))))
+
+def VEC_SUM(v1,v2):
+    return np.sqrt(np.dot(v1,v2))
 
 class data(object):
 
     def __init__(self, filename):
         self.filename = filename
         self.time = []
-        self.ux = []
-        self.uy = []
-        self.uz = []
 
         # Loading data file
         self.data = np.genfromtxt(self.filename,
@@ -61,26 +61,37 @@ class data(object):
                     self.data[i, 1 + j] = 0
 
         # Defining the components as attributes
+        zero = np.zeros(len(self.data[:,0]))
+
+        # Ux component in form of <Ux,0,0>
         self.Ux = self.data[:,1].astype(float)
-        self.Uy = self.data[:,2].astype(float)
-        self.Uz = self.data[:,3].astype(float)
+        self.Ux = np.vstack([self.Ux, zero])
+        self.Ux = np.vstack([self.Ux, zero])
 
+        # Uy component in form of <0,Uy,0>
+        self.Uy = zero
+        self.Uy = np.vstack([self.Uy, self.data[:,2].astype(float)])
+        self.Uy = np.vstack([self.Uy, zero])
 
-        self.ux2 = np.power(self.Ux , 2)
-        self.uy2 = np.power(self.Uy , 2)
-        self.Uxy= np.sqrt(self.ux2 + self.uy2)
-        print(self.Uxy)
+        # Uz component in form of <0,0,Uz>
+        self.Uz = zero
+        self.Uz = np.vstack([self.Uz, zero])
+        self.Uz = np.vstack([self.Uz, self.data[:,3].astype(float)])
+
+        # # Uxy calculation FIX LATER
+        # self.Uxy = self.data[i,]
+        # print(self.Uxy)
 
 
         # THETA VARIABLE CALCULATION (between z component and xy plane)
         #---------------------------------------------------------------------------
-        zero = np.zeros(len(self.Uz))
-        print(self.Uz)
-        self.Uz = np.vstack([self.Uz, zero])
-        print(self.Uz)
-        new_order = [0,1]
-        self.Uz = self.Uz[new_order, :][new_order]
-        print(self.Uz)
+        # zero = np.zeros(len(self.Uz))
+        # print(self.Uz)
+        # self.Uz = np.vstack([self.Uz, zero])
+        # print(self.Uz)
+        # new_order = [0,1]
+        # self.Uz = self.Uz[new_order, :][new_order]
+        # print(self.Uz)
         # self.theta = angle()
 
     # Will potentially remove this
