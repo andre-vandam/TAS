@@ -51,7 +51,7 @@ class data(object):
         for j in range(3):
             for i in range(len(self.data[:, 1 + j])):
                 if self.data[i, 1 + j] != '':
-                    self.data[i, 1 + j] = float(eval(self.data[i, 1]))
+                    self.data[i, 1 + j] = float(self.data[i, 1+j])
 
                 # Should the cell be empty, the value 0 will be assigned
                 elif self.data[i, 1 + j] == '':
