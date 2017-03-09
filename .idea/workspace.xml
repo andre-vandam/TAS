@@ -57,10 +57,10 @@
       <file leaf-file-name="data_processing.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Geoffrey-scripts/data_processing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="21" column="82" lean-forward="true" selection-start-line="21" selection-start-column="82" selection-end-line="21" selection-end-column="82" />
+            <state relative-caret-position="252">
+              <caret line="54" column="72" lean-forward="true" selection-start-line="54" selection-start-column="72" selection-end-line="54" selection-end-column="72" />
               <folding>
-                <element signature="e#95#123#0" expanded="true" />
+                <element signature="e#249#277#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -547,7 +547,14 @@
       <option name="project" value="LOCAL" />
       <updated>1489053335274</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Renamed file&#10;Added data_processing.py (class for handling data files)&#10;BugFIx">
+      <created>1489053719610</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1489053719610</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -624,7 +631,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#95#123#0" expanded="true" />
+            <element signature="e#249#277#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -678,10 +685,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Geoffrey-scripts/data_processing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="21" column="82" lean-forward="true" selection-start-line="21" selection-start-column="82" selection-end-line="21" selection-end-column="82" />
+        <state relative-caret-position="252">
+          <caret line="54" column="72" lean-forward="true" selection-start-line="54" selection-start-column="72" selection-end-line="54" selection-end-column="72" />
           <folding>
-            <element signature="e#95#123#0" expanded="true" />
+            <element signature="e#249#277#0" expanded="true" />
           </folding>
         </state>
       </provider>
