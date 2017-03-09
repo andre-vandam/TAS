@@ -1,7 +1,4 @@
-#---------------------------------------------------------------------------------
-# PREAMBLE                                                                       |
-#---------------------------------------------------------------------------------
-from numpy import genfromtxt
+import numpy as np
 from math import sqrt
 from numpy import delete
 
@@ -33,7 +30,7 @@ class data(object):
         self.V = []
 
         # Loading data file
-        self.data = genfromtxt(self.filename,
+        self.data = np.genfromtxt(self.filename,
                    delimiter = ',',
                    skip_header = 5,
                    skip_footer = 1,
@@ -57,13 +54,10 @@ class data(object):
 
         # VELOCITY COMPONENT INIT
         #--------------------------------------------------------------------------
-
         # Conversion of velocity components into float, and ignoring of empty cells.
         for j in range(3):
             for i in range(len(self.data[:, 1 + j])):
-
                 if self.data[i, 1 + j] != '':
-                    print("here", i, j)
                     self.data[i, 1 + j] = float(self.data[i, 1+j])
 
                 # Should the cell be empty, the value 0 will be assigned
@@ -72,9 +66,17 @@ class data(object):
                     # self.data[i, 1 + j] = 0
 
         # Defining the components as attributes
-        self.Ux = self.data[:,1]
-        self.Uy = self.data[:,2]
-        self.Uz = self.data[:,3]
+        self.Ux = self.data[:,1].astype(float)
+        self.Uy = self.data[:,2].astype(float)
+        self.Uz = self.data[:,3].astype(float)
+
+
+        self.ux2 = np.power(self.Ux , 2)
+        self.uy2 = np.power(self.Uy , 2)
+        self.Uxy= np.sqrt(self.ux2 + self.uy2)
+        print (self.Uxy)
+
+
 
         # Defining the magnitude of velocity vector
         for i in range(len(self.Ux)):
@@ -102,9 +104,7 @@ class data(object):
     #     row = self.data[:, number]
     #     return row
 
-x = data('Gill Log [WM1]-4.csv')
-print(x.data[:,2])
-# print(x.Ux)
+x = data('1')
 #
 # print(x.col(1))
 #
