@@ -3,6 +3,7 @@
 #---------------------------------------------------------------------------------
 from numpy import genfromtxt
 from math import sqrt
+from numpy import delete
 
 #---------------------------------------------------------------------------------
 # FUNCTIONS                                                                      |
@@ -65,7 +66,8 @@ class data(object):
 
                 # Should the cell be empty, the value 0 will be assigned
                 elif self.data[i, 1 + j] == '':
-                    self.data[i, 1 + j] = 0
+                    delete(self.data, (i), axis = 0)
+                    # self.data[i, 1 + j] = 0
 
         # Defining the components as attributes
         self.Ux = self.data[:,1]
@@ -79,6 +81,12 @@ class data(object):
 
         # THETA ANGLE INIT
         #---------------------------------------------------------------------------
+
+
+
+
+
+
 
 
     # Will potentially remove this
