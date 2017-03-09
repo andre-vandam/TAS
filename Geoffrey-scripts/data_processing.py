@@ -1,6 +1,11 @@
+
+# PREAMBLE
+#---------------------------------------------------------------------------------
 from numpy import genfromtxt
 from math import sqrt
 
+# FUNCTIONS
+#---------------------------------------------------------------------------------
 # Lambda Function to calculate magnitude of vector from components.
 mag = lambda x,y,z: sqrt(float(x)**2+float(y)**2+float(z)**2)
 
@@ -13,14 +18,16 @@ def deltaT(t1, t2):
     Dt = dh*60*60 + dm*60 + ds #[s]
     return Dt
 
+# OBJECTS
+#---------------------------------------------------------------------------------
 class data(object):
-
     def __init__(self, filename):
         self.filename = filename
         self.time = []
         self.ux = []
         self.uy = []
         self.uz = []
+        self.V = []
 
         # Loading data file
         self.data = genfromtxt(self.filename,
@@ -63,6 +70,12 @@ class data(object):
         self.Uy = self.data[:,2]
         self.Uz = self.data[:,3]
 
+        # Defining the magnitude of velocity vector
+        for i in range(len(self.Ux)):
+            V = mag(self.Ux[i],self.Uy[i],self.Uz[i])
+            self.V.append(V)
+
+        #
         #---------------------------------------------------------------------------
 
     # Will potentially remove this
