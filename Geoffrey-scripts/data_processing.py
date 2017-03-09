@@ -13,6 +13,9 @@ def deltaT(t1, t2):
     Dt = dh*60*60 + dm*60 + ds #[s]
     return Dt
 
+def angle(v1,v2):
+    return np.arccos(np.dot(v1,v2) / (np.sqrt(np.dot(v1,v1))*np.sqrt(np.dot(v2,v2))))
+
 class data(object):
 
     def __init__(self, filename):
@@ -66,11 +69,19 @@ class data(object):
         self.ux2 = np.power(self.Ux , 2)
         self.uy2 = np.power(self.Uy , 2)
         self.Uxy= np.sqrt(self.ux2 + self.uy2)
-        print (self.Uxy)
+        print(self.Uxy)
 
 
-
+        # THETA VARIABLE CALCULATION (between z component and xy plane)
         #---------------------------------------------------------------------------
+        zero = np.zeros(len(self.Uz))
+        print(self.Uz)
+        self.Uz = np.vstack([self.Uz, zero])
+        print(self.Uz)
+        new_order = [0,1]
+        self.Uz = self.Uz[new_order, :][new_order]
+        print(self.Uz)
+        # self.theta = angle()
 
     # Will potentially remove this
     # # Method to return column
@@ -83,7 +94,7 @@ class data(object):
     #     row = self.data[:, number]
     #     return row
 
-x = data('1')
+x = data('3')
 #
 # print(x.col(1))
 #

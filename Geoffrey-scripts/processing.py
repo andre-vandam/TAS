@@ -32,7 +32,6 @@ def timedifference(t1, t2):
     Dt = dh*60*60 + dm*60 + ds #[s]
     return Dt
 
-<<<<<<< HEAD:Geoffrey-scripts/handler.py
 
 def ConvertToINTstamp(time):
     return re.sub(":","",time)
