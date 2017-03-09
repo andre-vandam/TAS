@@ -29,6 +29,9 @@ class data(object):
                    skip_footer = 1,
                    dtype = str)
 
+        # TIME VARIABLE INIT
+        #--------------------------------------------------------------------------
+
         # Definition of initial starting time.
         self.initial_datetime = self.data[0,10]
 
@@ -41,6 +44,9 @@ class data(object):
         # Appending of time to list, measured in seconds from start
         for i in range(len(self.data[:, 1])):
             self.time.append(deltaT(self.data[0, 10], self.data[i, 10]))
+
+        # VELOCITY COMPONENT INIT
+        #--------------------------------------------------------------------------
 
         # Conversion of velocity components into float, and ignoring of empty cells.
         for j in range(3):
@@ -56,6 +62,8 @@ class data(object):
         self.Ux = self.data[:,1]
         self.Uy = self.data[:,2]
         self.Uz = self.data[:,3]
+
+        #---------------------------------------------------------------------------
 
     # Will potentially remove this
     # # Method to return column
