@@ -39,39 +39,49 @@ def arr_vec_angle(arr1, arr2):
 # DataFrame OBJECT
 #---------------------------------------------------------------------------
 class DataFrame():
-    def __init__(self, filename = ''):
+    def __init__(self, filename):
+
         self.filename = filename
-        self.data = np.genfromtxt(filename,
-                             delimiter=',',
-                             skip_header=5,
-                             skip_footer=1,
-                             dtype=str)
-        self.df = []
 
-        # INITIAL DATA PROCESSING FOR TSA ASSIGNMENT (MANUAL SETUP)
-        # ---------------------------------------------------------------------------
+        if filename[-7:] == 'tas.csv':
+            self.df = pd.read_csv(filename)
 
-        # DataFrame Setup
-        # ================================================
+        elif filename[-3:] == 'csv':
+            self.data = np.genfromtxt(filename,
+                                      delimiter=',',
+                                      skip_header=5,
+                                      skip_footer=1,
+                                      dtype=str)
 
-        # Columns to be used for DataFrame
-        self.columns = ['?', "u_x", "u_y", "u_z", "?", "sos", '?', "?", "?", "?", "Time-stamp"]
+            # INITIAL DATA PROCESSING FOR TSA ASSIGNMENT (MANUAL SETUP)
+            # ---------------------------------------------------------------------------
 
-        # Creating DataFrame
-        self.df = pd.DataFrame(self.data, columns=self.columns)
+            # DataFrame Setup
+            # ================================================
 
-        # DataFrame Manipulation (first time running data)
-        # ================================================
+            # Columns to be used for DataFrame
+            self.columns = ['?', "u_x", "u_y", "u_z", "?", "sos", '?', "?", "?", "?", "Time-stamp"]
 
-        # Delete all rows with '' for u_x
-        self.df = self.df[self.df.u_x != '']
+            # Creating DataFrame
+            self.df = pd.DataFrame(self.data, columns=self.columns)
 
-        # Delete Columns with '?'
-        del self.df['?']
+            # DataFrame Manipulation (first time running data)
+            # ================================================
 
-        # Setting Data Types (this slows processing)
-        self.df['Time-stamp'] = self.df['Time-stamp'].apply(pd.to_datetime)
-        self.df[['u_x', 'u_y', 'u_z', 'sos']] = self.df[['u_x', 'u_y', 'u_z', 'sos']].apply(pd.to_numeric)
+            # Delete all rows with '' for u_x
+            self.df = self.df[self.df.u_x != '']
+
+            # Delete Columns with '?'
+            del self.df['?']
+
+            # Setting Data Types (this slows processing)
+            self.df['Time-stamp'] = self.df['Time-stamp'].apply(pd.to_datetime)
+            self.df[['u_x', 'u_y', 'u_z', 'sos']] = self.df[['u_x', 'u_y', 'u_z', 'sos']].apply(pd.to_numeric)
+
+
+
+
+
 
         # Assigning the components of ux,uy,uz to an array for V
         self.V = self.df[['u_x', 'u_y', 'u_z']].values
@@ -126,7 +136,7 @@ class DataFrame():
                              skip_footer=1,
                              dtype=str)
 
-    def import_processed(self, filename):
+    # def import_processed(self, filename):
 
 
 
