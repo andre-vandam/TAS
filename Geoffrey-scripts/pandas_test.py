@@ -3,6 +3,8 @@ import numpy as np
 import scipy as sp
 import os.path
 import matplotlib.pyplot as plt
+from matplotlib import animation
+from mpl_toolkits.mplot3d import Axes3D
 
 data = np.genfromtxt('3',
                           delimiter=',',
@@ -10,7 +12,9 @@ data = np.genfromtxt('3',
                           skip_footer=1,
                           dtype=str)
 
-# DATAFRAME CSV FUNCTIONS
+# FUNCTIONS
+#---------------------------------------------------------------------------
+# Save Function
 def save_csv(filename, DataFrame):
     i = 0
     while True:
@@ -48,7 +52,7 @@ def save_csv(filename, DataFrame):
             DataFrame.to_csv(filename)
             break
 
-# FUNCTIONS FOR ARRAY OF VECTORS       #i.e: [[x0,y0,z0],
+# Functions for array of vectors       #i.e: [[x0,y0,z0],
 def arr_vec_dot(arr1, arr2):                # [x1,y1,z1],
     arr_dots = []                           # [x2,y2,z2],
     for vec1,vec2 in zip(arr1,arr2):        # [x3,y3,z3],
@@ -75,11 +79,17 @@ def arr_vec_angle(arr1, arr2):
 
     return np.array(arr_angles)
 
+# DataFrame
+#---------------------------------------------------------------------------
+
 # Columns to be used for DataFrame
 columns = ['?',"u_x","u_y","u_z","?","sos",'?',"?","?","?","Time-stamp"]
 
 # Creating DataFrame
 df = pd.DataFrame(data, columns =columns )
+
+# DataFrame Manipulation (first time running data)
+#---------------------------------------------------------------------------
 
 # Delete all rows with '' for u_x
 df = df[df.u_x != '']
@@ -90,6 +100,9 @@ del df['?']
 # Setting Data Types (this slows processing)
 df['Time-stamp'] = df['Time-stamp'].apply(pd.to_datetime)
 df[['u_x','u_y','u_z','sos']] = df[['u_x','u_y','u_z','sos']].apply(pd.to_numeric)
+
+# FUNCTIONS
+#---------------------------------------------------------------------------
 
 # Assigning the components of ux,uy,uz to an array for V
 V = df[['u_x','u_y','u_z']].values
@@ -102,7 +115,76 @@ Uxy = np.insert(Uxy, [2], [0], axis = 1)
 Theta = arr_vec_angle(Uxy,V)
 df['Theta'] = Theta
 
-plt.plot(df["Time-stamp"],df['Theta'])
+# plt.plot(df["Time-stamp"],df['Theta'])
+# plt.show()
+
+save_csv('test',df)
+
+
+# while True:
+#     input("Would you like to")
+
+
+# 3D PLOT ANIMATION
+
+# Preamble
+
+
+# First set up the figure, the axis, and the plot element we want to animate
+fig = plt.figure()
+ax = plt.axes(xlim=(0, max(V[:,0])), ylim = (0, max(V[:,1])))
+line, = ax.plot([], [], lw=2)
+
+
+# initialization function: plot the background of each frame
+def init():
+    line.set_data([], [])
+    return line,
+
+# animation function.  This is called sequentially
+def animate(i):
+    x = V[:,0];    y = V[:,1]
+    line.set_data(x, y)
+    return line,
+
+# call the animator.  blit=True means only re-draw the parts that have changed.
+anim = animation.FuncAnimation(fig, animate, init_func=init,
+                               frames=200, interval=20, blit=True)
+
+# save the animation as an mp4.  This requires ffmpeg or mencoder to be
+# installed.  The extra_args ensure that the x264 codec is used, so that
+# the video can be embedded in html5.  You may need to adjust this for
+# your system: for more information, see
+# http://matplotlib.sourceforge.net/api/animation_api.html
+anim.save('basic_animation.mp4', fps=30, extra_args=['-vcodec', 'libx264'])
+
+ax.set_xlabel('Ux')
+ax.set_ylabel('Uy')
+# ax.set_xlabel('Uz')
+
+ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))
+
 plt.show()
 
-# save_csv('test',df)
+
+# STATIC PLOT
+# ax = fig.add_subplot(111, projection = '3d')
+# x = V[0,0]
+# y = V[0,1]
+# z = V[0,2]
+
+# ax.plot([0,x],[0,y],[0,z])
+#
+# ax.plot([0,x],[0,0],[0,0])
+# ax.plot([0,0],[0,y],[0,0])
+# ax.plot([0,0],[0,0],[0,z])
+#
+# ax.plot([0,x],[0,y],[0,0])
+
+# Set the background color of the pane YZ
+# ax.scatter(x, y, z, marker='o')
+
+# plt.show()
+
+
+
