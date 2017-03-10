@@ -147,6 +147,8 @@ def animate(i):
     line.set_data(x, y)
     return line,
 
+print(df)
+
 # call the animator.  blit=True means only re-draw the parts that have changed.
 anim = animation.FuncAnimation(fig, animate, init_func=init,
                                frames=200, interval=20, blit=True)

@@ -6,7 +6,36 @@ import numpy as np
 # PREAMBLE
 #---------------------------------------------------------------------------
 
-# DATAFRAME OBJECT
+# FUNCTIONS
+# ---------------------------------------------------------------------------
+# Functions for array of vectors        #i.e: [[x0,y0,z0],
+def arr_vec_dot(arr1, arr2):                 # [x1,y1,z1],
+    arr_dots = []                            # [x2,y2,z2],
+    for vec1, vec2 in zip(arr1, arr2):       # [x3,y3,z3],
+        dot = np.dot(vec1, vec2)
+        arr_dots.append(dot)
+    return np.array(arr_dots)
+
+
+def arr_vec_length(arr):
+    arr_lengths = []
+    for vec in arr:
+        length = np.sqrt(arr_vec_dot(vec, vec))
+        arr_lengths.append(length)
+    return np.array(arr_lengths)
+
+
+def arr_vec_angle(arr1, arr2):
+    arr_angles = []
+    for vec1, vec2 in zip(arr1, arr2):
+        try:
+            angle = np.arccos(np.dot(vec1, vec2) / (np.sqrt(np.dot(vec1, vec1)) * np.sqrt(np.dot(vec2, vec2))))
+            arr_angles.append(np.rad2deg(angle))
+        except RuntimeWarning:
+            print(np.dot(vec1, vec2), np.sqrt(np.dot(vec1, vec1)), np.sqrt(np.dot(vec2, vec2)))
+    return np.array(arr_angles)
+
+# DataFrame OBJECT
 #---------------------------------------------------------------------------
 class DataFrame():
     def __init__(self, filename):
@@ -17,32 +46,46 @@ class DataFrame():
                              skip_footer=1,
                              dtype=str)
 
-    # Functions for array of vectors        #i.e: [[x0,y0,z0],
-    def arr_vec_dot(arr1, arr2):                 # [x1,y1,z1],
-        arr_dots = []                            # [x2,y2,z2],
-        for vec1, vec2 in zip(arr1, arr2):       # [x3,y3,z3],
-            dot = np.dot(vec1, vec2)
-            arr_dots.append(dot)
-        return np.array(arr_dots)
+        # INITIAL DATA PROCESSING FOR TSA ASSIGNMENT (MANUAL SETUP)
+        # ---------------------------------------------------------------------------
 
-    def arr_vec_length(arr):
-        arr_lengths = []
-        for vec in arr:
-            length = np.sqrt(arr_vec_dot(vec, vec))
-            arr_lengths.append(length)
-        return np.array(arr_lengths)
+            # DataFrame Setup
+            # -----------------------------------------------
+        # Columns to be used for DataFrame
+        self.columns = ['?', "u_x", "u_y", "u_z", "?", "sos", '?', "?", "?", "?", "Time-stamp"]
 
-    def arr_vec_angle(arr1, arr2):
-        arr_angles = []
+        # Creating DataFrame
+        self.df = pd.DataFrame(data, columns=columns)
 
-        for vec1, vec2 in zip(arr1, arr2):
-            try:
-                angle = np.arccos(np.dot(vec1, vec2) / (np.sqrt(np.dot(vec1, vec1)) * np.sqrt(np.dot(vec2, vec2))))
-                arr_angles.append(np.rad2deg(angle))
-            except RuntimeWarning:
-                print(np.dot(vec1, vec2), np.sqrt(np.dot(vec1, vec1)), np.sqrt(np.dot(vec2, vec2)))
+            # DataFrame Manipulation (first time running data)
+            # -----------------------------------------------
 
-        return np.array(arr_angles)
+        # Delete all rows with '' for u_x
+        self.df = df[df.u_x != '']
+
+        # Delete Columns with '?'
+        del self.df['?']
+
+        # Setting Data Types (this slows processing)
+        self.df['Time-stamp'] = self.df['Time-stamp'].apply(pd.to_datetime)
+        self.df[['u_x', 'u_y', 'u_z', 'sos']] = self.df[['u_x', 'u_y', 'u_z', 'sos']].apply(pd.to_numeric)
+
+
+
+        # Assigning the components of ux,uy,uz to an array for V
+        V = df[['u_x', 'u_y', 'u_z']].values
+
+        # Setting Uxy (component of velocity in xy-plane)
+        Uxy = df[['u_x', 'u_y']].values
+        Uxy = np.insert(Uxy, [2], [0], axis=1)
+
+        # Calculating array of thetas using function
+        Theta = arr_vec_angle(Uxy, V)
+        df['Theta'] = Theta
+
+
+
+
 
 
 
