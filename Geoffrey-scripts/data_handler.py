@@ -49,20 +49,20 @@ class DataFrame():
         # INITIAL DATA PROCESSING FOR TSA ASSIGNMENT (MANUAL SETUP)
         # ---------------------------------------------------------------------------
 
-            # DataFrame Setup
-            # ================================================
+        # DataFrame Setup
+        # ================================================
 
         # Columns to be used for DataFrame
         self.columns = ['?', "u_x", "u_y", "u_z", "?", "sos", '?', "?", "?", "?", "Time-stamp"]
 
         # Creating DataFrame
-        self.df = pd.DataFrame(data, columns=columns)
+        self.df = pd.DataFrame(self.data, columns=self.columns)
 
-            # DataFrame Manipulation (first time running data)
-            # ================================================
+        # DataFrame Manipulation (first time running data)
+        # ================================================
 
         # Delete all rows with '' for u_x
-        self.df = df[df.u_x != '']
+        self.df = self.df[self.df.u_x != '']
 
         # Delete Columns with '?'
         del self.df['?']
@@ -72,15 +72,16 @@ class DataFrame():
         self.df[['u_x', 'u_y', 'u_z', 'sos']] = self.df[['u_x', 'u_y', 'u_z', 'sos']].apply(pd.to_numeric)
 
         # Assigning the components of ux,uy,uz to an array for V
-        self.df['V'] = self.df[['u_x', 'u_y', 'u_z']].values
+        self.V = self.df[['u_x', 'u_y', 'u_z']].values
+        self.df['V'] = self.V
 
         # Setting Uxy (component of velocity in xy-plane)
-        Uxy = df[['u_x', 'u_y']].values
-        Uxy = np.insert(Uxy, [2], [0], axis=1)
+        self.Uxy = self.df[['u_x', 'u_y']].values
+        self.Uxy = np.insert(self.Uxy, [2], [0], axis=1)
 
         # Calculating array of thetas using function
-        Theta = arr_vec_angle(Uxy, V)
-        df['Theta'] = Theta
+        Theta = arr_vec_angle(self.Uxy, self.V)
+        self.df['Theta'] = Theta
 
 
 
