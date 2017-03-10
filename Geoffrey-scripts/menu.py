@@ -11,10 +11,10 @@ options = ['1', '2']
 
 # MENU FUNCTIONS
 #---------------------------------------------------------------------------
-def import_raw():
-
-
-def import_processed():
+# def import_raw():
+#
+#
+# def import_processed():
 
 def menu_choice():
 
@@ -37,11 +37,11 @@ def menu_choice():
 
     return choice
 
-def menu():
-    while True:
-        choice = menu_choice()
+def menu(choice):
+        menu(choice)
 
-
+while True:
+    menu(menu_choice())
 
 
 #

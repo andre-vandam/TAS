@@ -88,6 +88,8 @@ columns = ['?',"u_x","u_y","u_z","?","sos",'?',"?","?","?","Time-stamp"]
 # Creating DataFrame
 df = pd.DataFrame(data, columns =columns )
 
+
+
 # DataFrame Manipulation (first time running data)
 #---------------------------------------------------------------------------
 
@@ -100,6 +102,8 @@ del df['?']
 # Setting Data Types (this slows processing)
 df['Time-stamp'] = df['Time-stamp'].apply(pd.to_datetime)
 df[['u_x','u_y','u_z','sos']] = df[['u_x','u_y','u_z','sos']].apply(pd.to_numeric)
+
+print(df.u_x)
 
 # FUNCTIONS
 #---------------------------------------------------------------------------

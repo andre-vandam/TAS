@@ -2,6 +2,7 @@
 #---------------------------------------------------------------------------
 import pandas as pd
 import numpy as np
+import os.path
 
 # PREAMBLE
 #---------------------------------------------------------------------------
@@ -38,13 +39,14 @@ def arr_vec_angle(arr1, arr2):
 # DataFrame OBJECT
 #---------------------------------------------------------------------------
 class DataFrame():
-    def __init__(self, filename):
+    def __init__(self, filename = ''):
         self.filename = filename
-        self.data = np.genfromtxt('3',
+        self.data = np.genfromtxt(filename,
                              delimiter=',',
                              skip_header=5,
                              skip_footer=1,
                              dtype=str)
+        self.df = []
 
         # INITIAL DATA PROCESSING FOR TSA ASSIGNMENT (MANUAL SETUP)
         # ---------------------------------------------------------------------------
@@ -83,6 +85,48 @@ class DataFrame():
         Theta = arr_vec_angle(self.Uxy, self.V)
         self.df['Theta'] = Theta
 
+    # DataFrame Methods
+    # ---------------------------------------------------------------------------
+    def save_csv(self, filename, DataFrame = ['empty DataFrame']):
+        i = 0
+        while True:
+            if os.path.isfile(filename) == True:
+                FileExistsError()
+
+                while True:
+                    ans = input("Would you like to change it yourself (Y/N)? ")
+
+                    if ans == 'Y':
+                        filename = input("New filename: ")
+
+                        if os.path.isfile(filename) == False: break
+                        else:
+                            ans = 'N'; return ans
+
+                    elif ans == 'N':
+                        while True:
+                            i += 1
+                            filename = str(filename) + "(" + str(i) + ")"
+                            if os.path.isfile(filename) == False:
+                                break
+                            else:
+                                continue
+                        break
+                    else:
+                        print('Input not recognised')
+            elif os.path.isfile(filename) == False:
+                DataFrame.to_csv(filename)
+                break
+
+    def import_raw(self, filename):
+
+        self.data = np.genfromtxt(filename,
+                             delimiter=',',
+                             skip_header=5,
+                             skip_footer=1,
+                             dtype=str)
+
+    def import_processed(self, filename):
 
 
 
