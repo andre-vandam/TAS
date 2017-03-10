@@ -50,7 +50,8 @@ class DataFrame():
         # ---------------------------------------------------------------------------
 
             # DataFrame Setup
-            # -----------------------------------------------
+            # ================================================
+
         # Columns to be used for DataFrame
         self.columns = ['?', "u_x", "u_y", "u_z", "?", "sos", '?', "?", "?", "?", "Time-stamp"]
 
@@ -58,7 +59,7 @@ class DataFrame():
         self.df = pd.DataFrame(data, columns=columns)
 
             # DataFrame Manipulation (first time running data)
-            # -----------------------------------------------
+            # ================================================
 
         # Delete all rows with '' for u_x
         self.df = df[df.u_x != '']
@@ -70,10 +71,8 @@ class DataFrame():
         self.df['Time-stamp'] = self.df['Time-stamp'].apply(pd.to_datetime)
         self.df[['u_x', 'u_y', 'u_z', 'sos']] = self.df[['u_x', 'u_y', 'u_z', 'sos']].apply(pd.to_numeric)
 
-
-
         # Assigning the components of ux,uy,uz to an array for V
-        V = df[['u_x', 'u_y', 'u_z']].values
+        self.df['V'] = self.df[['u_x', 'u_y', 'u_z']].values
 
         # Setting Uxy (component of velocity in xy-plane)
         Uxy = df[['u_x', 'u_y']].values
