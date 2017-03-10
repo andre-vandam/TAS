@@ -45,6 +45,7 @@ class DataFrame():
 
         if filename[-7:] == 'tas.csv':
             self.df = pd.read_csv(filename)
+            # self.df['0'] =
 
         elif filename[-3:] == 'csv':
             self.data = np.genfromtxt(filename,
@@ -77,6 +78,10 @@ class DataFrame():
             # Setting Data Types (this slows processing)
             self.df['Time-stamp'] = self.df['Time-stamp'].apply(pd.to_datetime)
             self.df[['u_x', 'u_y', 'u_z', 'sos']] = self.df[['u_x', 'u_y', 'u_z', 'sos']].apply(pd.to_numeric)
+
+            # Saving processed file
+            filename = filename.replace('.csv','')
+            self.df.to_csv(filename+'.tas.csv')
 
         # Assigning the components of ux,uy,uz to an array for V
         self.V = self.df[['u_x', 'u_y', 'u_z']].values
@@ -133,7 +138,7 @@ class DataFrame():
 
     # def import_processed(self, filename):
 
-x = DataFrame('3.csv')
+x = DataFrame('3.tas.csv')
 print(x.df)
 
 
