@@ -78,14 +78,9 @@ class DataFrame():
             self.df['Time-stamp'] = self.df['Time-stamp'].apply(pd.to_datetime)
             self.df[['u_x', 'u_y', 'u_z', 'sos']] = self.df[['u_x', 'u_y', 'u_z', 'sos']].apply(pd.to_numeric)
 
-
-
-
-
-
         # Assigning the components of ux,uy,uz to an array for V
         self.V = self.df[['u_x', 'u_y', 'u_z']].values
-        self.df['V'] = self.V
+        # self.df['V'] = self.V
 
         # Setting Uxy (component of velocity in xy-plane)
         self.Uxy = self.df[['u_x', 'u_y']].values
@@ -97,46 +92,49 @@ class DataFrame():
 
     # DataFrame Methods
     # ---------------------------------------------------------------------------
-    def save_csv(self, filename, DataFrame = ['empty DataFrame']):
-        i = 0
-        while True:
-            if os.path.isfile(filename) == True:
-                FileExistsError()
+    # def save_csv(self, filename):
+    #     i = 0
+    #     while True:
+    #         if os.path.isfile(filename) == True:
+    #             FileExistsError()
+    #
+    #             while True:
+    #                 ans = input("Would you like to change it yourself (Y/N)? ")
+    #
+    #                 if ans == 'Y':
+    #                     filename = input("New filename: ")
+    #
+    #                     if os.path.isfile(filename) == False: break
+    #                     else:
+    #                         ans = 'N'; return ans
+    #
+    #                 elif ans == 'N':
+    #                     while True:
+    #                         i += 1
+    #                         filename = str(filename) + "(" + str(i) + ")"
+    #                         if os.path.isfile(filename) == False:
+    #                             break
+    #                         else:
+    #                             continue
+    #                     break
+    #                 else:
+    #                     print('Input not recognised')
+    #         elif os.path.isfile(filename) == False:
+    #             DataFrame.to_csv(filename)
+    #             break
 
-                while True:
-                    ans = input("Would you like to change it yourself (Y/N)? ")
-
-                    if ans == 'Y':
-                        filename = input("New filename: ")
-
-                        if os.path.isfile(filename) == False: break
-                        else:
-                            ans = 'N'; return ans
-
-                    elif ans == 'N':
-                        while True:
-                            i += 1
-                            filename = str(filename) + "(" + str(i) + ")"
-                            if os.path.isfile(filename) == False:
-                                break
-                            else:
-                                continue
-                        break
-                    else:
-                        print('Input not recognised')
-            elif os.path.isfile(filename) == False:
-                DataFrame.to_csv(filename)
-                break
-
-    def import_raw(self, filename):
-
-        self.data = np.genfromtxt(filename,
-                             delimiter=',',
-                             skip_header=5,
-                             skip_footer=1,
-                             dtype=str)
+    # def import_raw(self, filename):
+    #
+    #     self.data = np.genfromtxt(filename,
+    #                          delimiter=',',
+    #                          skip_header=5,
+    #                          skip_footer=1,
+    #                          dtype=str)
 
     # def import_processed(self, filename):
+
+x = DataFrame('3.csv')
+print(x.df)
 
 
 

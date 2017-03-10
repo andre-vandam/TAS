@@ -103,7 +103,7 @@ del df['?']
 df['Time-stamp'] = df['Time-stamp'].apply(pd.to_datetime)
 df[['u_x','u_y','u_z','sos']] = df[['u_x','u_y','u_z','sos']].apply(pd.to_numeric)
 
-print(df.u_x)
+print(df)
 
 # FUNCTIONS
 #---------------------------------------------------------------------------
@@ -152,25 +152,25 @@ def animate(i):
     return line,
 
 print(df)
-
-# call the animator.  blit=True means only re-draw the parts that have changed.
-anim = animation.FuncAnimation(fig, animate, init_func=init,
-                               frames=200, interval=20, blit=True)
-
-# save the animation as an mp4.  This requires ffmpeg or mencoder to be
-# installed.  The extra_args ensure that the x264 codec is used, so that
-# the video can be embedded in html5.  You may need to adjust this for
-# your system: for more information, see
-# http://matplotlib.sourceforge.net/api/animation_api.html
-anim.save('basic_animation.mp4', fps=30, extra_args=['-vcodec', 'libx264'])
-
-ax.set_xlabel('Ux')
-ax.set_ylabel('Uy')
-# ax.set_xlabel('Uz')
-
-ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))
-
-plt.show()
+#
+# # call the animator.  blit=True means only re-draw the parts that have changed.
+# anim = animation.FuncAnimation(fig, animate, init_func=init,
+#                                frames=200, interval=20, blit=True)
+#
+# # save the animation as an mp4.  This requires ffmpeg or mencoder to be
+# # installed.  The extra_args ensure that the x264 codec is used, so that
+# # the video can be embedded in html5.  You may need to adjust this for
+# # your system: for more information, see
+# # http://matplotlib.sourceforge.net/api/animation_api.html
+# anim.save('basic_animation.mp4', fps=30, extra_args=['-vcodec', 'libx264'])
+#
+# ax.set_xlabel('Ux')
+# ax.set_ylabel('Uy')
+# # ax.set_xlabel('Uz')
+#
+# ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))
+#
+# plt.show()
 
 
 # STATIC PLOT
