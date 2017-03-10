@@ -21,7 +21,7 @@ def arr_vec_dot(arr1, arr2):                 # [x1,y1,z1],
 def arr_vec_length(arr):
     arr_lengths = []
     for vec in arr:
-        length = np.sqrt(arr_vec_dot(vec, vec))
+        length = np.sqrt(np.dot(vec, vec))
         arr_lengths.append(length)
     return np.array(arr_lengths)
 
@@ -44,8 +44,7 @@ class DataFrame():
         self.filename = filename
 
         if filename[-7:] == 'tas.csv':
-            self.df = pd.read_csv(filename)
-            # self.df['0'] =
+            self.df = pd.read_csv(filename, index_col='Unnamed: 0')
 
         elif filename[-3:] == 'csv':
             self.data = np.genfromtxt(filename,
@@ -85,7 +84,7 @@ class DataFrame():
 
         # Assigning the components of ux,uy,uz to an array for V
         self.V = self.df[['u_x', 'u_y', 'u_z']].values
-        # self.df['V'] = self.V
+        # self.df['V'] = self.df[['u_x', 'u_y', 'u_z']].values
 
         # Setting Uxy (component of velocity in xy-plane)
         self.Uxy = self.df[['u_x', 'u_y']].values
@@ -139,7 +138,8 @@ class DataFrame():
     # def import_processed(self, filename):
 
 x = DataFrame('3.tas.csv')
-print(x.df)
+print(x.V)
+print(arr_vec_length(x.V))
 
 
 
