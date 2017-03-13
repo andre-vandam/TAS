@@ -84,11 +84,12 @@ class DataFrame():
 
         # Assigning the components of ux,uy,uz to an array for V
         self.V = self.df[['u_x', 'u_y', 'u_z']].values
-        # self.df['V'] = self.df[['u_x', 'u_y', 'u_z']].values
+        self.df['V'] = arr_vec_length(self.V)
 
         # Setting Uxy (component of velocity in xy-plane)
         self.Uxy = self.df[['u_x', 'u_y']].values
         self.Uxy = np.insert(self.Uxy, [2], [0], axis=1)
+        self.df['Uxy'] = arr_vec_length(self.Uxy)
 
         # Calculating array of thetas using function
         Theta = arr_vec_angle(self.Uxy, self.V)
@@ -96,50 +97,39 @@ class DataFrame():
 
     # DataFrame Methods
     # ---------------------------------------------------------------------------
-    # def save_csv(self, filename):
-    #     i = 0
-    #     while True:
-    #         if os.path.isfile(filename) == True:
-    #             FileExistsError()
-    #
-    #             while True:
-    #                 ans = input("Would you like to change it yourself (Y/N)? ")
-    #
-    #                 if ans == 'Y':
-    #                     filename = input("New filename: ")
-    #
-    #                     if os.path.isfile(filename) == False: break
-    #                     else:
-    #                         ans = 'N'; return ans
-    #
-    #                 elif ans == 'N':
-    #                     while True:
-    #                         i += 1
-    #                         filename = str(filename) + "(" + str(i) + ")"
-    #                         if os.path.isfile(filename) == False:
-    #                             break
-    #                         else:
-    #                             continue
-    #                     break
-    #                 else:
-    #                     print('Input not recognised')
-    #         elif os.path.isfile(filename) == False:
-    #             DataFrame.to_csv(filename)
-    #             break
+    def save_csv(self, filename):
+        i = 0
+        while True:
+            if os.path.isfile(filename) == True:
+                FileExistsError()
 
-    # def import_raw(self, filename):
-    #
-    #     self.data = np.genfromtxt(filename,
-    #                          delimiter=',',
-    #                          skip_header=5,
-    #                          skip_footer=1,
-    #                          dtype=str)
+                while True:
+                    ans = input("Would you like to change it yourself (Y/N)? ")
 
-    # def import_processed(self, filename):
+                    if ans == 'Y':
+                        filename = input("New filename: ")
 
-x = DataFrame('3.tas.csv')
-print(x.V)
-print(arr_vec_length(x.V))
+                        if os.path.isfile(filename) == False:
+                            break
+                        else:
+                            ans = 'N';
+                            return ans
+
+                    elif ans == 'N':
+                        while True:
+                            i += 1
+                            filename = str(filename) + "(" + str(i) + ")"
+                            if os.path.isfile(filename) == False:
+                                break
+                            else:
+                                continue
+                        break
+                    else:
+                        print('Input not recognised')
+            elif os.path.isfile(filename) == False:
+                DataFrame.to_csv(filename)
+                break
+
 
 
 
