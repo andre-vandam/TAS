@@ -3,7 +3,6 @@
 import pandas as pd
 import numpy as np
 import os.path
-
 # PREAMBLE
 #---------------------------------------------------------------------------
 
@@ -129,10 +128,3 @@ class DataFrame():
             elif os.path.isfile(filename) == False:
                 DataFrame.to_csv(filename)
                 break
-
-
-
-
-
-
-
