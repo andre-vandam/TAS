@@ -31,7 +31,13 @@ def arr_vec_angle(arr1, arr2):
     for vec1, vec2 in zip(arr1, arr2):
         try:
             angle = np.arccos(np.dot(vec1, vec2) / (np.sqrt(np.dot(vec1, vec1)) * np.sqrt(np.dot(vec2, vec2))))
-            arr_angles.append(np.rad2deg(angle))
+
+            if  arr2[np.where(arr2 == vec2)][2] <=  0:
+                arr_angles.append(-np.rad2deg(angle))
+
+            elif arr2[np.where(arr2 == vec2)][2] > 0:
+                arr_angles.append(np.rad2deg(angle))
+
         except RuntimeWarning:
             print(np.dot(vec1, vec2), np.sqrt(np.dot(vec1, vec1)), np.sqrt(np.dot(vec2, vec2)))
     return np.array(arr_angles)
@@ -129,8 +135,6 @@ class DataFrame():
             elif os.path.isfile(filename) == False:
                 DataFrame.to_csv(filename)
                 break
-
-
 
 
 
