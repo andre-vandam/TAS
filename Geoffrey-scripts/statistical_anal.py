@@ -1,4 +1,5 @@
 import data_handler as dh
+import pandas as pd
 
 Dataset3 = dh.DataFrame('3.tas.csv')
 
