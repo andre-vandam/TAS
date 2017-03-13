@@ -40,7 +40,7 @@ class StatisticalAnal():
         subarray = 0
         RolledArray = []
         while (not stop):
-            WhereEnd = np.where(times == currentTime + deltaT)
+            WhereEnd = np.where(times == currentTime + deltaT)[0]
             subarray= values[WhereStart:WhereEnd]
             mean , stand = men_std(subarray)
             RolledArray.append([mean, stand,currentTime+deltaT])
