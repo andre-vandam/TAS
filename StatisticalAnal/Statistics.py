@@ -21,7 +21,10 @@ plt.show()
 
 class StatisticalAnal():
     def __init__(self,dataFrame):
-        self.vector = []
+        Uxy = dataFrame.df.Uxy
+        timeStamps = dataFrame.df["Time-stamp"]
+        print(Uxy)
+        print(timeStamps)
 
 
     def men_std(vector):
@@ -47,3 +50,8 @@ class StatisticalAnal():
             currentTime = currentTime +deltaT
             if (currentTime >= EndTime):
                 stop = True
+
+        return np.array(RolledArray)
+
+
+statisticsTest = StatisticalAnal(test1)
