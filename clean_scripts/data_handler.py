@@ -3,11 +3,40 @@
 import pandas as pd
 import numpy as np
 import os.path
+import time, datetime
+import functools, operator
 # PREAMBLE
 #---------------------------------------------------------------------------
 
 # FUNCTIONS
 # ---------------------------------------------------------------------------
+
+def time_convert(t):
+
+    x = time.strptime(t, '%H:%M:%S')
+    return str(int(datetime.timedelta(hours = x.tm_hour, minutes = x.tm_min, seconds = x.tm_sec).total_seconds()))
+
+strip_date = lambda time_stamp: time_stamp[11:]
+
+# def offset(t, t0):
+#     return t-t0
+#
+# t_0_offset = lambda time: offset(time, 1)
+
+# def t_0_offset(t):
+#     global j
+#     j = 0
+#
+#     if j==0:
+#         global t0
+#         t0 = t
+#         j = 1
+#     else:
+#         t = t - t0
+#
+#     return t
+
+
 # Functions for array of vectors        #i.e: [[x0,y0,z0],
 def arr_vec_dot(arr1, arr2):                 # [x1,y1,z1],
     arr_dots = []                            # [x2,y2,z2],
@@ -79,26 +108,40 @@ class DataFrame():
             # Delete Columns with '?'
             del self.df['?']
 
-            # Setting Data Types (this slows processing)
+            # Manipulation of time-stamp column:
+            # The following lines convert the time-stamp into seconds aggregate from t0
+            self.df['Time-stamp'] = self.df['Time-stamp'].apply(strip_date)
+            self.df['t'] = self.df['Time-stamp']
+            self.df['t'] = self.df['t'].apply(time_convert)
+            self.df['t'] = self.df['t'].apply(pd.to_numeric)
+            t0 = int(self.df['t'][0])
+            subtract_t0 = lambda time: time - t0 # I apologise for making a lambda function here!
+            self.df['t'] = self.df['t'].apply(subtract_t0)
+
+            # Conversion of time-stamp to datetime data type (long processing)
             self.df['Time-stamp'] = self.df['Time-stamp'].apply(pd.to_datetime)
+
+            # Conversion of velocity components into numeric data type
             self.df[['u_x', 'u_y', 'u_z', 'sos']] = self.df[['u_x', 'u_y', 'u_z', 'sos']].apply(pd.to_numeric)
+
+            # Assigning the components of ux,uy,uz to an array for V
+            self.V = self.df[['u_x', 'u_y', 'u_z']].values
+            self.df['V'] = arr_vec_length(self.V)
+
+            # Setting Uxy (component of velocity in xy-plane)
+            self.Uxy = self.df[['u_x', 'u_y']].values
+            self.Uxy = np.insert(self.Uxy, [2], [0], axis=1)
+            self.df['Uxy'] = arr_vec_length(self.Uxy)
+
+            # Calculating array of thetas using function
+            Theta = arr_vec_angle(self.Uxy, self.V)
+            self.df['Theta'] = Theta
 
             # Saving processed file
             filename = filename.replace('.csv','')
             self.df.to_csv(filename+'.tas.csv')
 
-        # Assigning the components of ux,uy,uz to an array for V
-        self.V = self.df[['u_x', 'u_y', 'u_z']].values
-        self.df['V'] = arr_vec_length(self.V)
-
-        # Setting Uxy (component of velocity in xy-plane)
-        self.Uxy = self.df[['u_x', 'u_y']].values
-        self.Uxy = np.insert(self.Uxy, [2], [0], axis=1)
-        self.df['Uxy'] = arr_vec_length(self.Uxy)
-
-        # Calculating array of thetas using function
-        Theta = arr_vec_angle(self.Uxy, self.V)
-        self.df['Theta'] = Theta
+            # Adding the turbulence intensity (%)
 
     # DataFrame Methods
     # ---------------------------------------------------------------------------
@@ -134,3 +177,9 @@ class DataFrame():
             elif os.path.isfile(filename) == False:
                 DataFrame.to_csv(filename)
                 break
+
+x = DataFrame('../Geoffrey-scripts/3.csv')
+print(x.df['t'], x.df['Time-stamp'])
+
+# convertTime()
+# print(x.df['Time-stamp'].astype('timedelta64[s]'))
