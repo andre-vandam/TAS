@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9f2f10a1-a08d-4777-9d55-0967690adffc" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Geoffrey-scripts/3.tas.csv" afterPath="$PROJECT_DIR$/Geoffrey-scripts/3.tas.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clean_scripts/data_handler.py" afterPath="$PROJECT_DIR$/clean_scripts/data_handler.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -81,8 +79,8 @@
       <file leaf-file-name="data_handler.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/clean_scripts/data_handler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1209">
-              <caret line="210" column="35" lean-forward="true" selection-start-line="209" selection-start-column="0" selection-end-line="210" selection-end-column="35" />
+            <state relative-caret-position="377">
+              <caret line="161" column="39" lean-forward="true" selection-start-line="161" selection-start-column="39" selection-end-line="161" selection-end-column="39" />
               <folding>
                 <element signature="e#87#106#0" expanded="true" />
               </folding>
@@ -852,7 +850,14 @@
       <option name="project" value="LOCAL" />
       <updated>1489673848221</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="new Files">
+      <created>1489738006217</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1489738006218</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1320,8 +1325,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/clean_scripts/data_handler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1209">
-          <caret line="210" column="35" lean-forward="true" selection-start-line="209" selection-start-column="0" selection-end-line="210" selection-end-column="35" />
+        <state relative-caret-position="377">
+          <caret line="161" column="39" lean-forward="true" selection-start-line="161" selection-start-column="39" selection-end-line="161" selection-end-column="39" />
           <folding>
             <element signature="e#87#106#0" expanded="true" />
           </folding>
