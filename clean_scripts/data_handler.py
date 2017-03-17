@@ -5,6 +5,7 @@ import numpy as np
 import os.path
 import time, datetime
 import functools, operator
+import matplotlib.pyplot as plt
 # PREAMBLE
 #---------------------------------------------------------------------------
 
@@ -17,6 +18,9 @@ def time_convert(t):
     return str(int(datetime.timedelta(hours = x.tm_hour, minutes = x.tm_min, seconds = x.tm_sec).total_seconds()))
 
 strip_date = lambda time_stamp: time_stamp[11:]
+
+SecsToMins = lambda s: s/60.0
+MinsToSecs = lambda min: min*60.0
 
 # def offset(t, t0):
 #     return t-t0
@@ -90,8 +94,11 @@ class DataFrame():
             # INITIAL DATA PROCESSING FOR TSA ASSIGNMENT (MANUAL SETUP)
             # ---------------------------------------------------------------------------
 
+
             # DataFrame Setup
             # ================================================
+
+            print('DataFrame Setup Initialising..') # STATUS UPDATE
 
             # Columns to be used for DataFrame
             self.columns = ['?', "u_x", "u_y", "u_z", "?", "sos", '?', "?", "?", "?", "Time-stamp"]
@@ -102,6 +109,8 @@ class DataFrame():
             # DataFrame Manipulation (first time running data)
             # ================================================
 
+            print('Filtering blank data lines...') # STATUS UPDATE
+
             # Delete all rows with '' for u_x
             self.df = self.df[self.df.u_x != '']
 
@@ -110,6 +119,9 @@ class DataFrame():
 
             # Manipulation of time-stamp column:
             # The following lines convert the time-stamp into seconds aggregate from t0
+
+            print('Manipulating Time-stamps...') # STATUS UPDATE
+
             self.df['Time-stamp'] = self.df['Time-stamp'].apply(strip_date)
             self.df['t'] = self.df['Time-stamp']
             self.df['t'] = self.df['t'].apply(time_convert)
@@ -137,11 +149,29 @@ class DataFrame():
             Theta = arr_vec_angle(self.Uxy, self.V)
             self.df['Theta'] = Theta
 
+            # Adding the turbulence intensity (%)
+
+                # NOTE: For the data points located in the first and last 10 minutes,
+                #       their values will be calculated using the range within 5 minutes up and below.
+            turb = []
+            for i in range(len(self.df.V)):
+                try:
+                    interval = self.df[self.df.t.between(MinsToSecs( SecsToMins(self.df.t[i]) - 5 ), MinsToSecs( SecsToMins(self.df.t[i] + 5) ), inclusive=True)]
+                    mean = np.mean(interval.V)
+                    std = np.std(interval.V)
+                    turb_intensity = (std/mean) * 100
+                    turb.append(turb_intensity)
+
+                except KeyError: turb.append(turb[-1]); pass
+
+            self.df['Turb_intensity'] = turb
+
             # Saving processed file
             filename = filename.replace('.csv','')
             self.df.to_csv(filename+'.tas.csv')
 
-            # Adding the turbulence intensity (%)
+
+
 
     # DataFrame Methods
     # ---------------------------------------------------------------------------
@@ -178,8 +208,18 @@ class DataFrame():
                 DataFrame.to_csv(filename)
                 break
 
-x = DataFrame('../Geoffrey-scripts/3.csv')
-print(x.df['t'], x.df['Time-stamp'])
+# x = DataFrame('../Geoffrey-scripts/3.tas.csv')
+# print(x.df['Turb_intensity(%)'], x.df['t'])
 
 # convertTime()
 # print(x.df['Time-stamp'].astype('timedelta64[s]'))
+
+
+
+
+# plt.plot(x.df.t, x.df['Turb_intensity'])
+# plt.show()
+#
+#
+
+
