@@ -1,0 +1,3 @@
+Mean Uxy : 4.0993315953 STD :1.2437437495
+ Mean Uz : 1.7021120944 STD :0.800729072129
+ Mean Theta : nan STD :nan
