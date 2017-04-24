@@ -5,6 +5,7 @@ import numpy as np
 import os.path
 import time, datetime
 import functools, operator
+import math
 import matplotlib.pyplot as plt
 # PREAMBLE
 #---------------------------------------------------------------------------
@@ -91,6 +92,11 @@ class DataFrame():
                                       skip_footer=1,
                                       dtype=str)
 
+            self.data = self.data[np.where(np.isfinite(self.data))]
+
+            # y = np.array(x.df.Theta)
+            # print(y[np.where( np.isfinite(y))])
+
             # INITIAL DATA PROCESSING FOR TSA ASSIGNMENT (MANUAL SETUP)
             # ---------------------------------------------------------------------------
 
@@ -153,18 +159,18 @@ class DataFrame():
 
                 # NOTE: For the data points located in the first and last 10 minutes,
                 #       their values will be calculated using the range within 5 minutes up and below.
-            turb = []
-            for i in range(len(self.df.V)):
-                try:
-                    interval = self.df[self.df.t.between(MinsToSecs( SecsToMins(self.df.t[i]) - 5 ), MinsToSecs( SecsToMins(self.df.t[i] + 5) ), inclusive=True)]
-                    mean = np.mean(interval.V)
-                    std = np.std(interval.V)
-                    turb_intensity = (std/mean) * 100
-                    turb.append(turb_intensity)
-
-                except KeyError: turb.append(turb[-1]); pass
-
-            self.df['Turb_intensity'] = turb
+            # turb = []
+            # for i in range(len(self.df.V)):
+            #     try:
+            #         interval = self.df[self.df.t.between(MinsToSecs( SecsToMins(self.df.t[i]) - 5 ), MinsToSecs( SecsToMins(self.df.t[i] + 5) ), inclusive=True)]
+            #         mean = np.mean(interval.V)
+            #         std = np.std(interval.V)
+            #         turb_intensity = (std/mean) * 100
+            #         turb.append(turb_intensity)
+            #
+            #     except KeyError: turb.append(turb[-1]); pass
+            #
+            # self.df['Turb_intensity'] = turb
 
             # Saving processed file
             filename = filename.replace('.csv','')
@@ -208,18 +214,20 @@ class DataFrame():
                 DataFrame.to_csv(filename)
                 break
 
+# USE FOR PRESENTATION
+
+# Raw Data to be processed
+# x = DataFrame('../Geoffrey-scripts/3.csv')
+
+# Data already processed
 # x = DataFrame('../Geoffrey-scripts/3.tas.csv')
-# print(x.df['Turb_intensity(%)'], x.df['t'])
-
-# convertTime()
-# print(x.df['Time-stamp'].astype('timedelta64[s]'))
-
-
-
-
-# plt.plot(x.df.t, x.df['Turb_intensity'])
-# plt.show()
 #
+# print(x.df[2750:2780])
+
+# np.where(np.is)
 #
-
-
+# print(x.df)
+# #
+# #
+# interval = x.df[np.where(np.isnan(x.df))]
+# print(interval)

@@ -5,8 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-dataFrames = []
-staisticObjects =[]
+
 '''
 Wm1 -> 1
 wm4 -> 2
@@ -17,15 +16,8 @@ Wm8 -> 6
 Wm9 -> 7
 Wm10 -> 8
 
-
-
-
 '''
-
-
 # for data in dataFrames
-
-
 # plt.plot(range(np.size(test1.df.Uxy)), test1.df.Uxy )
 # plt.plot(range(np.size(test1.df.Uxy)), pd.rolling_mean(test1.df.Uxy,3000), c='r' )
 # plt.plot(range(np.size(test1.df.Theta)), test1.df.Theta )
@@ -109,6 +101,9 @@ class StatisticalAnal():
             if (WhereEnd >= EndTime):
                 stop = True
         return np.array(RolledArray)
+
+dataFrames = []
+staisticObjects = []
 for i in range (1,9,1):
     currentDF =dp.DataFrame("../DATA/"+str(i)+".tas.csv")
     dataFrames.append(currentDF)
