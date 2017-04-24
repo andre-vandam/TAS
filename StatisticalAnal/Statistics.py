@@ -4,6 +4,7 @@ import data_handler as dp
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import math
 
 
 '''
@@ -61,14 +62,14 @@ class StatisticalAnal():
     def plotrolledTheta(self):
         plt.plot(np.array(self.rolledTheta)[:,2],np.array(self.rolledTheta)[:,0])
         plt.xlabel("time [s]")
-        plt.ylabel("Vertical Inflow Angle rolling turbulence [deg]")
+        plt.ylabel("Vertical Inflow Angle rolling mean [deg]")
         plt.savefig(self.name+ "_rolled_tita_mean.png")
         plt.gcf().clear()
 
     def plotTurbulaceRolled(self):
         plt.plot(np.array(self.rolledTheta)[:,2],(np.array(self.rolledV)[:,1]/np.array(self.rolledV)[:,0]))
         plt.xlabel("time [s]")
-        plt.ylabel("Vertical Inflow Angle rolling turbulence [deg]")
+        plt.ylabel("turbulence rolled [-]")
         plt.savefig(self.name+ "_rolled_turbulence.png")
         plt.gcf().clear()
 
@@ -85,12 +86,13 @@ class StatisticalAnal():
         times = vector[:,1]
         WhereStart = 0
         WhereEnd = 0
-        EndTime = times[-1]
+        EndTime = times.size
         stop = False
         subarray = []
         RolledArray = []
         WhereEnd = np.where(times ==  deltaT)[0][0]
-        centerTimeIndex = np.where(times ==deltaT/2.) [0][0]
+        centerTimeIndex = np.where(times == math.ceil(deltaT/2.)) [0][0]
+        print (times[centerTimeIndex])
         while (not stop):
             subarray= values[WhereStart:WhereEnd]
             mean , stand = self.men_std(subarray)
@@ -100,6 +102,7 @@ class StatisticalAnal():
             WhereStart = WhereStart +1
             if (WhereEnd >= EndTime):
                 stop = True
+        print (RolledArray)
         return np.array(RolledArray)
 
 dataFrames = []
@@ -112,7 +115,7 @@ for i in range (1,9,1):
     currentStatObj.plotTheta()
     currentStatObj.PrintMeans()
     currentStatObj.plotrolledTheta()
-    currentStatObj.plotTurbulaceRolled
+    currentStatObj.plotTurbulaceRolled()
 
 
 
